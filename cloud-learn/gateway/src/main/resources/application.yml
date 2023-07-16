@@ -1,0 +1,22 @@
+server:
+  port: 10010
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+    gateway:
+      routes:
+        - id: user-service    #路由标识   唯一
+          uri: lb://userservice   #路由目标地址
+          predicates:
+            - Path=/user/**   #路径断言，判断路径是否为/user开头
+        - id: order-service
+          uri: lb://orderservice
+          predicates:   # 断言工厂  Route Predicate Factories
+            - Path=/order/**
+#          filters:
+#            - AddRequestHeader=hello,world
+#      default-filters:    #对所有生效
+#        - AddRequestHeader=hello,world
